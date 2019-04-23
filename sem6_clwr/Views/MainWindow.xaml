@@ -1,0 +1,61 @@
+﻿<Window x:Class="sem6_clwr.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:sem6_clwr"
+        xmlns:viewModels="clr-namespace:sem6_clwr.ViewModels"
+        xmlns:validation="clr-namespace:sem6_clwr.Validation"
+        mc:Ignorable="d"
+        Title="My Crypto" Height="194.978" Width="236.507" WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <viewModels:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+
+            <StackPanel Orientation="Horizontal" ToolTip="It's just a seed for random bits replacements table">
+                <Label Content="Key: "></Label>
+                <TextBox MinWidth="20">
+                    <TextBox.Text>
+                        <Binding Path="Key" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validation:NumberValidation/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" ToolTip="It's just a seed for random bits replacements table">
+                <Label Content="Block size: "></Label>
+                <TextBox MinWidth="20">
+                    <TextBox.Text>
+                        <Binding Path="BlockSize" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validation:NumberValidation/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Button IsEnabled="{Binding IsNotProcessing}" Margin="10"
+                        Content="Encrypt" Command="{Binding EncryptCommand}"></Button>
+                <Button IsEnabled="{Binding IsNotProcessing}" Margin="10"
+                        Content="Decrypt" Command="{Binding DecryptCommand}"></Button>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="{Binding Message}"></TextBlock>
+            <ProgressBar Height="20"  IsIndeterminate="{Binding IsProcessing}"></ProgressBar>
+        </StackPanel>
+    </Grid>
+</Window>
